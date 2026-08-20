@@ -632,6 +632,10 @@
 
     function playing(){ return !audio.paused && !audio.muted; }
     function paint(){ btn.classList.toggle("on", playing()); }
+    // Түйменің күйі плеердің нақты күйінен ажырап қалмасын
+    audio.addEventListener("play", paint);
+    audio.addEventListener("pause", paint);
+    audio.addEventListener("volumechange", paint);
 
     // Дыбыссыз ойнатуға браузер әрқашан рұқсат етеді. Әнді үнсіз қосып қойсақ,
     // бірінші түртуде ол кідіріссіз естіледі.
