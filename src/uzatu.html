@@ -586,7 +586,7 @@
 <button class="music" id="music" type="button" aria-label="Әнді қосу немесе өшіру" hidden>
   <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
 </button>
-<audio id="audio" src="music.mp3" loop autoplay preload="auto"></audio>
+<audio id="audio" src="music.mp3" loop preload="auto"></audio>
 
 <script>
   // ---- настройки ----
@@ -678,8 +678,6 @@
       setTimeout(function(){ if (gate.parentNode) { gate.parentNode.removeChild(gate); } }, 800);
 
       if (audio){
-        audio.muted = false;
-        audio.currentTime = 0;
         var p = audio.play();
         if (p && p.catch) { p.catch(function(){}); }
       }
@@ -690,18 +688,16 @@
     });
   })();
 
-  // Мұқабадағы бейне. Кейбір браузерлер autoplay-ды бірінші түртуден кейін ғана рұқсат етеді.
+  // Мұқабадағы бейне. Дыбыссыз, сондықтан браузерлер оны бірден ойнатады.
   (function(){
     var v = document.getElementById("hero-video");
     if (!v) { return; }
-    function go(){ var p = v.play(); if (p && p.catch) { p.catch(function(){}); } }
-    go();
-    document.addEventListener("touchstart", go, { once: true });
-    document.addEventListener("click", go, { once: true });
+    var p = v.play();
+    if (p && p.catch) { p.catch(function(){}); }
   })();
 
-  // Фондық ән. music.mp3 файлы index.html-мен бір бумада жатуы керек.
-  // Файл болмаса, түйме мүлдем көрінбейді.
+  // Фондық ән. Тек кіру экранының түймесінен қосылады — автоқосу жоқ.
+  // music.mp3 файлы index.html-мен бір бумада жатуы керек.
   (function(){
     var audio = document.getElementById("audio"),
         btn   = document.getElementById("music");
@@ -711,65 +707,18 @@
     audio.addEventListener("error", function(){ btn.hidden = true; });
     if (audio.readyState >= 1) { show(); }
 
-    function playing(){ return !audio.paused && !audio.muted; }
-    function paint(){ btn.classList.toggle("on", playing()); }
-    // Түйменің күйі плеердің нақты күйінен ажырап қалмасын
+    function paint(){ btn.classList.toggle("on", !audio.paused); }
     audio.addEventListener("play", paint);
     audio.addEventListener("pause", paint);
-    audio.addEventListener("volumechange", paint);
 
-    // Дыбыссыз ойнатуға браузер әрқашан рұқсат етеді. Әнді үнсіз қосып қойсақ,
-    // бірінші түртуде ол кідіріссіз естіледі.
-    function prime(){
-      audio.muted = true;
-      var p = audio.play();
-      if (p && p.catch) { p.catch(function(){}); }
-    }
-
-    // Бет жүктелген соң 300 мс-та автоқосуға тырысамыз
-    function autostart(){
-      setTimeout(function(){
-        audio.muted = false;
-        var p = audio.play();
-        if (p && p.then) { p.then(paint).catch(prime); } else { paint(); }
-      }, 300);
-    }
-    if (document.readyState === "complete") { autostart(); }
-    else { window.addEventListener("load", autostart); }
-
-    btn.addEventListener("click", function(e){
-      e.stopPropagation();
-      if (playing()){ audio.pause(); paint(); return; }
-      audio.muted = false;
-      var p = audio.play();
-      if (p && p.then) { p.then(paint).catch(function(){}); } else { paint(); }
-    });
-
-    // Телефондарда дыбыс тек қолданушы қимылынан кейін қосылады.
-    // Үнсіз ойнап тұрса — дыбысты қосып, әнді басынан бастаймыз.
-    function onGesture(){
-      audio.muted = false;
+    btn.addEventListener("click", function(){
       if (audio.paused){
         var p = audio.play();
-        if (p && p.then) { p.then(function(){ paint(); stopListening(); }).catch(function(){}); }
+        if (p && p.catch) { p.catch(function(){}); }
       } else {
-        audio.currentTime = 0;
-        paint();
-        stopListening();
+        audio.pause();
       }
-    }
-    // Браузерлер "қолданушы қимылы" деп танитын оқиғалардың бәрін тыңдаймыз.
-    // Chrome-да touchstart саналмайды, сондықтан touchend пен pointerup міндетті.
-    var GESTURES = ["touchstart", "touchend", "pointerdown", "pointerup", "click", "keydown"];
-
-    function stopListening(){
-      for (var i = 0; i < GESTURES.length; i++){
-        document.removeEventListener(GESTURES[i], onGesture);
-      }
-    }
-    for (var g = 0; g < GESTURES.length; g++){
-      document.addEventListener(GESTURES[g], onGesture, { passive: true });
-    }
+    });
   })();
 
   // Превью iframe-те сыртқы сілтемелер бұғатталады — соны түсіндіріп қоямыз.
