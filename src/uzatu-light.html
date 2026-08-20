@@ -15,6 +15,9 @@
     --muted:#7A6E5E;
     --line:rgba(148,110,40,.30);
     --shadow:0 18px 44px rgba(110,85,35,.14);
+    --scrim-0:rgba(251,247,240,0);
+    --scrim-1:rgba(251,247,240,.62);
+    --scrim-2:rgba(251,247,240,.96);
     --f-display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
     --f-body:"Manrope","Segoe UI",system-ui,sans-serif;
   }
@@ -80,8 +83,8 @@
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
-    padding:70px 26px 46px;
+    justify-content:flex-end;
+    padding:70px 26px 58px;
     text-align:center;
     position:relative;
     overflow:hidden;
@@ -123,11 +126,17 @@
     z-index:0;
     pointer-events:none;
   }
+  .hero-bg::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,var(--scrim-0) 26%,var(--scrim-1) 58%,var(--scrim-2) 100%);
+  }
   .hero-bg video{
     width:100%;
     height:100%;
     object-fit:cover;
-    opacity:.4;
+    opacity:.7;
     display:block;
   }
 
@@ -499,9 +508,8 @@
         <label class="opt"><input type="radio" name="rsvp" value="Өкінішке орай, бара алмаймын"><span class="dot"></span>Өкінішке орай, бара алмаймын</label>
       </div>
 
-      <a class="btn solid" id="send" href="https://wa.me/77474224135" target="_blank" rel="noopener">Жауап жіберу</a>
+      <a class="btn solid" id="send" href="https://wa.me/77715185462" target="_blank" rel="noopener">Жауап жіберу</a>
       <p class="muted" id="hint" style="margin:14px 0 0;font-size:12px">WhatsApp ашылады — дайын хабарламаны <b>«Жіберу»</b> түймесімен жөнелтіңіз</p>
-      <p class="muted" style="margin:8px 0 0;font-size:12px">WhatsApp ашылмаса: <a href="tel:+77474224135" style="color:var(--gold)">+7 747 422 41 35</a></p>
     </div>
   </section>
 
@@ -523,7 +531,7 @@
 <script>
   // ---- настройки ----
   var EVENT_ISO = "2026-09-18T18:00:00+05:00";
-  var WHATSAPP  = "77474224135"; // номер той иесі
+  var WHATSAPP  = "77715185462"; // номер той иесі
 
   (function(){
     var t = new Date(EVENT_ISO).getTime(),
