@@ -375,6 +375,53 @@
     color:var(--gold-soft);
   }
 
+  /* ---------- кіру экраны ---------- */
+  .gate{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      repeating-linear-gradient(45deg,var(--line) 0 1px,transparent 1px 88px),
+      repeating-linear-gradient(-45deg,var(--line) 0 1px,transparent 1px 88px),
+      radial-gradient(120% 80% at 50% 40%,var(--card-2) 0%,var(--night) 72%);
+    transition:opacity .7s ease,visibility .7s ease;
+  }
+  .gate.gone{opacity:0;visibility:hidden}
+  body.locked{overflow:hidden}
+
+  .gate-btn{
+    position:relative;
+    width:152px;
+    height:152px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.35);
+    background:radial-gradient(120% 120% at 32% 26%,#F7E7BE 0%,#DFBB76 46%,#B08D46 100%);
+    color:#2A2012;
+    font-family:var(--f-body);
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    cursor:pointer;
+    box-shadow:0 20px 48px rgba(0,0,0,.45),inset 0 2px 7px rgba(255,255,255,.5);
+    animation:gatePulse 2.6s ease-in-out infinite;
+  }
+  .gate-btn::before{
+    content:"";
+    position:absolute;
+    inset:-16px;
+    border-radius:50%;
+    border:1px solid var(--line);
+  }
+  .gate-btn:hover,.gate-btn:focus-visible{background:radial-gradient(120% 120% at 32% 26%,#FBF0D6 0%,#E7C888 46%,#BE9950 100%)}
+  @keyframes gatePulse{
+    0%,100%{box-shadow:0 20px 48px rgba(0,0,0,.45),inset 0 2px 7px rgba(255,255,255,.5),0 0 0 0 rgba(216,178,106,.30)}
+    70%{box-shadow:0 20px 48px rgba(0,0,0,.45),inset 0 2px 7px rgba(255,255,255,.5),0 0 0 26px rgba(216,178,106,0)}
+  }
+
   /* ---------- music ---------- */
   .music{
     position:fixed;
@@ -415,8 +462,14 @@
     .reveal{opacity:1;transform:none;transition:none}
     .scroll-cue i{animation:none}
     .music:not(.on){animation:none}
+    .gate-btn{animation:none}
   }
 </style>
+
+<div class="gate" id="gate">
+  <button class="gate-btn" id="gate-btn" type="button">Басыңыз</button>
+</div>
+<noscript><style>.gate{display:none}</style></noscript>
 
 <div class="phone">
 
@@ -619,6 +672,34 @@
         return;
       }
       hint.innerHTML = "WhatsApp-та <b>«Жіберу»</b> түймесін басуды ұмытпаңыз!";
+    });
+  })();
+
+  // Кіру экраны. Түймені басу — браузер дыбысқа рұқсат беретін нақты қимыл,
+  // сондықтан ән дәл осы сәтте кідіріссіз қосылады.
+  (function(){
+    var gate = document.getElementById("gate"),
+        gateBtn = document.getElementById("gate-btn"),
+        audio = document.getElementById("audio"),
+        video = document.getElementById("hero-video");
+
+    document.body.classList.add("locked");
+
+    gateBtn.addEventListener("click", function(){
+      gate.classList.add("gone");
+      document.body.classList.remove("locked");
+      setTimeout(function(){ if (gate.parentNode) { gate.parentNode.removeChild(gate); } }, 800);
+
+      if (audio){
+        audio.muted = false;
+        audio.currentTime = 0;
+        var p = audio.play();
+        if (p && p.catch) { p.catch(function(){}); }
+      }
+      if (video){
+        var vp = video.play();
+        if (vp && vp.catch) { vp.catch(function(){}); }
+      }
     });
   })();
 
