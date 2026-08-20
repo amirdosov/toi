@@ -41,4 +41,4 @@ def build(src_name, out_path, theme):
 
 here = os.path.dirname(os.path.abspath(__file__))
 build("uzatu.html", os.path.join(here, "index.html"), "#08181E")
-build("uzatu-light.html", os.path.join(here, "index-light.html"), "#FBF7F0")
+build("uzatu-light.html", os.path.join(here, "light.html"), "#FBF7F0")
