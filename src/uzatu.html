@@ -387,6 +387,12 @@
     border-radius:2px;
     transition:height .2s ease;
   }
+  /* Ән тұрғанда түйме байқалып тұрсын */
+  .music:not(.on){animation:pulse 2.8s ease-in-out infinite}
+  @keyframes pulse{
+    0%,100%{box-shadow:var(--shadow)}
+    50%{box-shadow:var(--shadow),0 0 0 7px rgba(216,178,106,.16)}
+  }
   .music.on .eq i{animation:eq .9s ease-in-out infinite}
   .music.on .eq i:nth-child(2){animation-delay:.15s}
   .music.on .eq i:nth-child(3){animation-delay:.3s}
@@ -395,6 +401,7 @@
   @media (prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none}
     .scroll-cue i{animation:none}
+    .music:not(.on){animation:none}
   }
 </style>
 
@@ -643,14 +650,23 @@
       else { audio.pause(); paint(); }
     });
 
-    // Браузерлер дыбысты бірінші түртуден кейін ғана қосады
-    function firstTouch(){
-      document.removeEventListener("click", firstTouch);
-      document.removeEventListener("touchstart", firstTouch);
-      if (ready && audio.paused){ audio.play().then(paint).catch(function(){}); }
+    // Телефондарда браузер дыбысқа тыйым салады. Сондықтан әр түртуде
+    // қайта тырысамыз — ән шынымен қосылғанша тыңдаушыларды алмаймыз.
+    function onGesture(){
+      if (!audio.paused) { stopListening(); return; }
+      var p = audio.play();
+      if (p && p.then) {
+        p.then(function(){ paint(); stopListening(); }).catch(function(){});
+      } else if (!audio.paused) {
+        paint(); stopListening();
+      }
     }
-    document.addEventListener("click", firstTouch);
-    document.addEventListener("touchstart", firstTouch);
+    function stopListening(){
+      document.removeEventListener("touchstart", onGesture);
+      document.removeEventListener("click", onGesture);
+    }
+    document.addEventListener("touchstart", onGesture, { passive: true });
+    document.addEventListener("click", onGesture);
   })();
 
   // Превью iframe-те сыртқы сілтемелер бұғатталады — соны түсіндіріп қоямыз.
