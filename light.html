@@ -686,12 +686,18 @@
         stopListening();
       }
     }
+    // Браузерлер "қолданушы қимылы" деп танитын оқиғалардың бәрін тыңдаймыз.
+    // Chrome-да touchstart саналмайды, сондықтан touchend пен pointerup міндетті.
+    var GESTURES = ["touchstart", "touchend", "pointerdown", "pointerup", "click", "keydown"];
+
     function stopListening(){
-      document.removeEventListener("touchstart", onGesture);
-      document.removeEventListener("click", onGesture);
+      for (var i = 0; i < GESTURES.length; i++){
+        document.removeEventListener(GESTURES[i], onGesture);
+      }
     }
-    document.addEventListener("touchstart", onGesture, { passive: true });
-    document.addEventListener("click", onGesture);
+    for (var g = 0; g < GESTURES.length; g++){
+      document.addEventListener(GESTURES[g], onGesture, { passive: true });
+    }
   })();
 
   // Превью iframe-те сыртқы сілтемелер бұғатталады — соны түсіндіріп қоямыз.
