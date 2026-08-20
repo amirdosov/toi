@@ -1,0 +1,645 @@
+<title>Гүлмира тойы, ашық нұсқа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap">
+
+<style>
+  :root{
+    --night:#FBF7F0;
+    --card:#FFFDF8;
+    --card-2:#F4ECDE;
+    --gold:#946E28;
+    --gold-dim:#8A7038;
+    --gold-soft:#6B4F1E;
+    --ivory:#33291C;
+    --muted:#7A6E5E;
+    --line:rgba(148,110,40,.30);
+    --shadow:0 18px 44px rgba(110,85,35,.14);
+    --f-display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+    --f-body:"Manrope","Segoe UI",system-ui,sans-serif;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(120% 60% at 50% 0%, #F3E7D2 0%, rgba(243,231,210,0) 60%),
+      radial-gradient(100% 50% at 50% 100%, #F1E6D6 0%, rgba(241,230,214,0) 65%),
+      var(--night);
+    background-attachment:fixed;
+    color:var(--ivory);
+    font-family:var(--f-body);
+    font-weight:300;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .phone{
+    max-width:440px;
+    margin:0 auto;
+    padding:0 0 48px;
+    overflow:hidden;
+  }
+
+  /* ---------- shared ---------- */
+  .sec{
+    padding:52px 26px;
+    text-align:center;
+    position:relative;
+  }
+  .eyebrow{
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 18px;
+  }
+  h2{
+    font-family:var(--f-display);
+    font-weight:400;
+    font-size:30px;
+    line-height:1.2;
+    margin:0 0 18px;
+    text-wrap:balance;
+    color:var(--gold-soft);
+  }
+  p{margin:0 0 14px;font-size:16px;color:var(--ivory);opacity:.92}
+  .muted{color:var(--muted);font-size:14px}
+
+  .orn{display:block;margin:26px auto;width:120px;height:auto;opacity:.85}
+  .orn path,.orn circle{stroke:var(--gold);fill:none;stroke-width:1.2;vector-effect:non-scaling-stroke}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:70px 26px 46px;
+    text-align:center;
+    position:relative;
+  }
+  .hero-frame{
+    position:absolute;
+    inset:16px;
+    border:1px solid var(--line);
+    border-radius:200px 200px 14px 14px;
+    pointer-events:none;
+  }
+  .hero-frame::after{
+    content:"";
+    position:absolute;
+    inset:7px;
+    border:1px solid rgba(148,110,40,.16);
+    border-radius:196px 196px 10px 10px;
+  }
+  .hero-inner{position:relative;z-index:1;width:100%}
+
+  .kicker{
+    font-size:11px;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:500;
+    margin-bottom:8px;
+  }
+
+  .photo{
+    width:190px;
+    height:250px;
+    margin:22px auto 26px;
+    border-radius:95px 95px 12px 12px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg,var(--card-2),var(--card));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .photo .ph-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dim)}
+
+  .name{
+    font-family:var(--f-display);
+    font-size:64px;
+    font-weight:400;
+    line-height:1;
+    margin:0;
+    color:var(--gold-soft);
+  }
+  .name-sub{
+    font-family:var(--f-display);
+    font-style:italic;
+    font-size:20px;
+    color:var(--ivory);
+    opacity:.8;
+    margin-top:10px;
+  }
+
+  .hero-date{
+    margin-top:28px;
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    font-size:13px;
+    letter-spacing:.22em;
+    color:var(--gold);
+    text-transform:uppercase;
+  }
+  .hero-date .bar{width:26px;height:1px;background:var(--gold-dim)}
+
+  .scroll-cue{
+    margin-top:38px;
+    font-size:10px;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+    color:var(--muted);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+  }
+  .scroll-cue i{
+    display:block;width:1px;height:34px;
+    background:linear-gradient(var(--gold-dim),transparent);
+    animation:cue 2.4s ease-in-out infinite;
+  }
+  @keyframes cue{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+  /* ---------- invitation ---------- */
+  .invite p{font-size:17px;line-height:1.85}
+  .invite .lead{
+    font-family:var(--f-display);
+    font-size:26px;
+    letter-spacing:.02em;
+    color:var(--gold-soft);
+    margin-bottom:18px;
+  }
+
+  /* ---------- hosts ---------- */
+  .hosts{
+    background:linear-gradient(180deg,rgba(244,236,222,.9),rgba(244,236,222,.25));
+    border-top:1px solid rgba(148,110,40,.16);
+    border-bottom:1px solid rgba(148,110,40,.16);
+  }
+  .host-names{
+    font-family:var(--f-display);
+    font-size:32px;
+    color:var(--gold-soft);
+    line-height:1.3;
+  }
+
+  /* ---------- details ---------- */
+  .card{
+    background:linear-gradient(180deg,var(--card-2),var(--card));
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:24px 20px;
+    margin:0 0 18px;
+    box-shadow:var(--shadow);
+  }
+  .cal{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+  .cal caption{
+    font-family:var(--f-display);
+    font-size:22px;
+    color:var(--gold-soft);
+    padding-bottom:14px;
+    letter-spacing:.04em;
+  }
+  .cal th{
+    font-size:10px;
+    font-weight:500;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--gold-dim);
+    padding-bottom:10px;
+  }
+  .cal td{
+    font-size:14px;
+    color:var(--ivory);
+    opacity:.75;
+    padding:7px 0;
+    text-align:center;
+  }
+  .cal td.off{opacity:.28}
+  .cal td.day{opacity:1}
+  .cal td.day span{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:34px;height:34px;
+    border-radius:50%;
+    background:var(--gold);
+    color:var(--night);
+    font-weight:600;
+  }
+
+  .kv{display:flex;flex-direction:column;gap:4px;padding:16px 0}
+  .kv + .kv{border-top:1px solid rgba(148,110,40,.16)}
+  .kv .k{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+  .kv .v{font-family:var(--f-display);font-size:22px;color:var(--ivory)}
+  .kv .v small{display:block;font-family:var(--f-body);font-size:13px;color:var(--muted);margin-top:4px;letter-spacing:0}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    width:100%;
+    padding:15px 20px;
+    border-radius:999px;
+    border:1px solid var(--gold);
+    background:transparent;
+    color:var(--gold-soft);
+    font-family:var(--f-body);
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    text-decoration:none;
+    cursor:pointer;
+    transition:background .25s ease,color .25s ease;
+  }
+  .btn:hover,.btn:focus-visible{background:var(--gold);color:var(--night)}
+  .btn.solid{background:var(--gold);color:var(--night);border-color:var(--gold)}
+  .btn.solid:hover,.btn.solid:focus-visible{background:var(--gold-soft);border-color:var(--gold-soft)}
+  a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--gold-soft);outline-offset:3px}
+
+  /* ---------- countdown ---------- */
+  .cd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px}
+  .cd div{
+    background:rgba(148,110,40,.06);
+    border:1px solid rgba(148,110,40,.20);
+    border-radius:12px;
+    padding:14px 4px;
+  }
+  .cd b{
+    display:block;
+    font-family:var(--f-display);
+    font-size:30px;
+    font-weight:500;
+    color:var(--gold-soft);
+    font-variant-numeric:tabular-nums;
+    line-height:1;
+  }
+  .cd i{
+    display:block;
+    font-style:normal;
+    font-size:9px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-top:7px;
+  }
+
+  /* ---------- rsvp ---------- */
+  .rsvp-opts{display:flex;flex-direction:column;gap:10px;margin:20px 0 18px;text-align:left}
+  .opt{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 18px;
+    border:1px solid rgba(148,110,40,.24);
+    border-radius:14px;
+    cursor:pointer;
+    font-size:15px;
+    transition:border-color .2s ease,background .2s ease;
+  }
+  .opt input{position:absolute;opacity:0;pointer-events:none}
+  .opt .dot{
+    width:17px;height:17px;flex:none;
+    border-radius:50%;
+    border:1px solid var(--gold-dim);
+    position:relative;
+  }
+  .opt input:checked + .dot::after{
+    content:"";
+    position:absolute;inset:3px;
+    border-radius:50%;
+    background:var(--gold);
+  }
+  .opt:has(input:checked){border-color:var(--gold);background:rgba(148,110,40,.09)}
+  .field{
+    width:100%;
+    padding:15px 18px;
+    border-radius:14px;
+    border:1px solid rgba(148,110,40,.24);
+    background:rgba(148,110,40,.05);
+    color:var(--ivory);
+    font-family:var(--f-body);
+    font-size:15px;
+    margin-bottom:14px;
+  }
+  .field::placeholder{color:var(--muted);opacity:.75}
+
+  /* ---------- footer ---------- */
+  .footer{padding:44px 26px 10px;text-align:center}
+  .footer .sign{
+    font-family:var(--f-display);
+    font-style:italic;
+    font-size:22px;
+    color:var(--gold-soft);
+  }
+
+  /* ---------- music ---------- */
+  .music{
+    position:fixed;
+    right:calc(50% - 220px + 16px);
+    bottom:18px;
+    z-index:20;
+    width:48px;height:48px;
+    border-radius:50%;
+    border:1px solid var(--gold);
+    background:var(--card);
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+  }
+  @media (max-width:472px){ .music{right:16px} }
+  .music .eq{display:flex;align-items:flex-end;gap:3px;height:15px}
+  .music .eq i{
+    display:block;width:3px;height:5px;
+    background:var(--gold);
+    border-radius:2px;
+    transition:height .2s ease;
+  }
+  .music.on .eq i{animation:eq .9s ease-in-out infinite}
+  .music.on .eq i:nth-child(2){animation-delay:.15s}
+  .music.on .eq i:nth-child(3){animation-delay:.3s}
+  @keyframes eq{0%,100%{height:4px}50%{height:15px}}
+
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .scroll-cue i{animation:none}
+  }
+</style>
+
+<div class="phone">
+
+  <header class="hero">
+    <div class="hero-frame"></div>
+    <div class="hero-inner">
+      <div class="kicker">Ұзату той</div>
+
+      <div class="photo">
+        <span class="ph-label">Фото</span>
+      </div>
+
+      <h1 class="name">Гүлмира</h1>
+      <div class="name-sub">шаңырақ көтеретін күн</div>
+
+      <div class="hero-date">
+        <span class="bar"></span>
+        18 · 09 · 2026
+        <span class="bar"></span>
+      </div>
+
+      <div class="scroll-cue"><i></i>төмен қараңыз</div>
+    </div>
+  </header>
+
+  <section class="sec invite reveal">
+    <svg class="orn" viewBox="0 0 120 30" aria-hidden="true">
+      <path d="M60 4v22M60 15h-16M44 15c-6 0-9-4-9-7s3-6 6-4 1 8-5 8-9-3-9-6M60 15h16M76 15c6 0 9-4 9-7s-3-6-6-4-1 8 5 8 9-3 9-6"/>
+      <circle cx="60" cy="15" r="3.2"/>
+    </svg>
+    <div class="eyebrow">Шақыру</div>
+    <p class="lead">Құрметті туған-туыс,<br>дос-жарандар!</p>
+    <p>Сіздерді қызымыз <b>Гүлмираның</b> ұзату тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!</p>
+    <p class="muted">Тойымыздың сәні — Сіздер!</p>
+  </section>
+
+  <section class="sec hosts reveal">
+    <div class="eyebrow">Той иесі</div>
+    <div class="host-names">Гүлайым</div>
+  </section>
+
+  <section class="sec reveal">
+    <div class="eyebrow">Той қашан және қайда</div>
+
+    <div class="card">
+      <table class="cal">
+        <caption>Қыркүйек 2026</caption>
+        <thead>
+          <tr><th>Дс</th><th>Сс</th><th>Ср</th><th>Бс</th><th>Жм</th><th>Сн</th><th>Жк</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="off">31</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+          <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
+          <tr><td>14</td><td>15</td><td>16</td><td>17</td><td class="day"><span>18</span></td><td>19</td><td>20</td></tr>
+          <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td></tr>
+          <tr><td>28</td><td>29</td><td>30</td><td class="off">1</td><td class="off">2</td><td class="off">3</td><td class="off">4</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="padding-top:6px;padding-bottom:6px">
+      <div class="kv">
+        <div class="k">Күні</div>
+        <div class="v">18 қыркүйек, жұма</div>
+      </div>
+      <div class="kv">
+        <div class="k">Уақыты</div>
+        <div class="v">18:00<small>Қонақтарды 17:30-дан бастап күтеміз</small></div>
+      </div>
+      <div class="kv">
+        <div class="k">Мекенжайы</div>
+        <div class="v">Қарасай батыр к-сі, 142<small>Ақтөбе қаласы</small></div>
+      </div>
+    </div>
+
+    <a class="btn" href="https://2gis.kz/aktobe/search/Қарасай батыр 142" target="_blank" rel="noopener">Картадан қарау</a>
+  </section>
+
+  <section class="sec reveal">
+    <svg class="orn" viewBox="0 0 120 30" aria-hidden="true">
+      <path d="M20 15h80M60 8l6 7-6 7-6-7z"/>
+      <circle cx="30" cy="15" r="2"/><circle cx="90" cy="15" r="2"/>
+    </svg>
+    <div class="eyebrow">Тойға дейін</div>
+    <div class="cd" id="cd">
+      <div><b data-d>—</b><i>күн</i></div>
+      <div><b data-h>—</b><i>сағат</i></div>
+      <div><b data-m>—</b><i>минут</i></div>
+      <div><b data-s>—</b><i>секунд</i></div>
+    </div>
+  </section>
+
+  <section class="sec reveal">
+    <div class="eyebrow">Дресс-код</div>
+    <h2>Сәнді әрі салтанатты киім</h2>
+    <p class="muted">Тойымыздың көркі болу үшін мерекелік киіммен келуіңізді сұраймыз.</p>
+  </section>
+
+  <section class="sec reveal">
+    <div class="card" style="text-align:center">
+      <div class="eyebrow">Жауап беру</div>
+      <h2 style="font-size:26px">Тойға келе аласыз ба?</h2>
+      <p class="muted" style="margin-bottom:6px">Жауабыңызды 17 қыркүйекке дейін білдірсеңіз, разы боламыз.</p>
+
+      <input class="field" id="guest" type="text" placeholder="Аты-жөніңіз" autocomplete="name">
+
+      <div class="rsvp-opts">
+        <label class="opt"><input type="radio" name="rsvp" value="Қуана барамын" checked><span class="dot"></span>Қуана барамын</label>
+        <label class="opt"><input type="radio" name="rsvp" value="Жұбайыммен бірге барамын"><span class="dot"></span>Жұбайыммен бірге барамын</label>
+        <label class="opt"><input type="radio" name="rsvp" value="Өкінішке орай, бара алмаймын"><span class="dot"></span>Өкінішке орай, бара алмаймын</label>
+      </div>
+
+      <a class="btn solid" id="send" href="https://wa.me/77474224135" target="_blank" rel="noopener">Жауап жіберу</a>
+      <p class="muted" id="hint" style="margin:14px 0 0;font-size:12px">WhatsApp ашылады — дайын хабарламаны <b>«Жіберу»</b> түймесімен жөнелтіңіз</p>
+      <p class="muted" style="margin:8px 0 0;font-size:12px">WhatsApp ашылмаса: <a href="tel:+77474224135" style="color:var(--gold)">+7 747 422 41 35</a></p>
+    </div>
+  </section>
+
+  <footer class="footer reveal">
+    <svg class="orn" viewBox="0 0 120 30" aria-hidden="true">
+      <path d="M60 4v22M60 15h-16M44 15c-6 0-9-4-9-7s3-6 6-4 1 8-5 8-9-3-9-6M60 15h16M76 15c6 0 9-4 9-7s-3-6-6-4-1 8 5 8 9-3 9-6"/>
+      <circle cx="60" cy="15" r="3.2"/>
+    </svg>
+    <div class="sign">Сіздерді тойымызда көруге<br>қуаныштымыз!</div>
+  </footer>
+
+</div>
+
+<button class="music" id="music" type="button" aria-label="Әнді қосу немесе өшіру" hidden>
+  <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+</button>
+<audio id="audio" src="music.mp3" loop preload="metadata"></audio>
+
+<script>
+  // ---- настройки ----
+  var EVENT_ISO = "2026-09-18T18:00:00+05:00";
+  var WHATSAPP  = "77474224135"; // номер той иесі
+
+  (function(){
+    var t = new Date(EVENT_ISO).getTime(),
+        box = document.getElementById("cd"),
+        el = {
+          d: box.querySelector("[data-d]"), h: box.querySelector("[data-h]"),
+          m: box.querySelector("[data-m]"), s: box.querySelector("[data-s]")
+        };
+    function pad(n){ return n < 10 ? "0" + n : "" + n; }
+    function tick(){
+      var diff = t - Date.now();
+      if (diff < 0) { diff = 0; }
+      var d = Math.floor(diff / 864e5),
+          h = Math.floor(diff / 36e5) % 24,
+          m = Math.floor(diff / 6e4) % 60,
+          s = Math.floor(diff / 1e3) % 60;
+      el.d.textContent = d; el.h.textContent = pad(h);
+      el.m.textContent = pad(m); el.s.textContent = pad(s);
+    }
+    tick(); setInterval(tick, 1000);
+  })();
+
+  (function(){
+    var items = document.querySelectorAll(".reveal");
+    if (!("IntersectionObserver" in window)){
+      items.forEach(function(i){ i.classList.add("in"); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { threshold: .15 });
+    items.forEach(function(i){ io.observe(i); });
+  })();
+
+  // RSVP: сілтемені әрқашан жаңартып отырамыз (window.open sandbox-та бұғатталады)
+  (function(){
+    var link  = document.getElementById("send"),
+        input = document.getElementById("guest"),
+        hint  = document.getElementById("hint"),
+        form  = document.querySelectorAll('input[name="rsvp"]');
+
+    function answer(){
+      var checked = document.querySelector('input[name="rsvp"]:checked');
+      return checked ? checked.value : "";
+    }
+    function sync(){
+      var name = input.value.trim(),
+          text = "Ассалаумағалейкум! " +
+                 (name ? "Мен — " + name + ". " : "") +
+                 "Гүлмираның ұзату тойына: " + answer() + ".";
+      link.href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text);
+    }
+
+    input.addEventListener("input", sync);
+    Array.prototype.forEach.call(form, function(r){ r.addEventListener("change", sync); });
+    sync();
+
+    link.addEventListener("click", function(e){
+      if (!input.value.trim()){
+        e.preventDefault();
+        input.placeholder = "Аты-жөніңізді жазыңыз";
+        input.focus();
+        return;
+      }
+      hint.innerHTML = "WhatsApp-та <b>«Жіберу»</b> түймесін басуды ұмытпаңыз!";
+    });
+  })();
+
+  // Фондық ән. music.mp3 файлы index.html-мен бір бумада жатуы керек.
+  // Файл болмаса, түйме мүлдем көрінбейді.
+  (function(){
+    var audio = document.getElementById("audio"),
+        btn   = document.getElementById("music"),
+        ready = false;
+
+    audio.addEventListener("loadedmetadata", function(){
+      ready = true;
+      btn.hidden = false;
+    });
+    audio.addEventListener("error", function(){ btn.hidden = true; });
+
+    function paint(){ btn.classList.toggle("on", !audio.paused); }
+
+    btn.addEventListener("click", function(){
+      if (audio.paused){ audio.play().then(paint).catch(function(){}); }
+      else { audio.pause(); paint(); }
+    });
+
+    // Браузерлер дыбысты бірінші түртуден кейін ғана қосады
+    function firstTouch(){
+      document.removeEventListener("click", firstTouch);
+      document.removeEventListener("touchstart", firstTouch);
+      if (ready && audio.paused){ audio.play().then(paint).catch(function(){}); }
+    }
+    document.addEventListener("click", firstTouch);
+    document.addEventListener("touchstart", firstTouch);
+  })();
+
+  // Превью iframe-те сыртқы сілтемелер бұғатталады — соны түсіндіріп қоямыз.
+  // Нақты хостингте бұл код ешқашан іске қосылмайды.
+  (function(){
+    var framed = false;
+    try { framed = window.top !== window.self; } catch (e) { framed = true; }
+    if (!framed) { return; }
+
+    var msg = "Алдын ала қарау режимінде бұл сілтеме ашылмайды. Сайтқа жүктегенде жұмыс істейді.";
+    var links = document.querySelectorAll('a[href^="https://wa.me"], a[href^="https://2gis"]');
+    Array.prototype.forEach.call(links, function(a){
+      a.addEventListener("click", function(e){
+        e.preventDefault();
+        var note = a.nextElementSibling;
+        if (!note || !note.classList.contains("preview-note")){
+          note = document.createElement("p");
+          note.className = "muted preview-note";
+          note.style.cssText = "margin:10px 0 0;font-size:12px";
+          a.parentNode.insertBefore(note, a.nextSibling);
+        }
+        note.textContent = msg;
+      });
+    });
+  })();
+</script>
