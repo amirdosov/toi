@@ -636,42 +636,54 @@
   // Файл болмаса, түйме мүлдем көрінбейді.
   (function(){
     var audio = document.getElementById("audio"),
-        btn   = document.getElementById("music"),
-        ready = false;
+        btn   = document.getElementById("music");
 
-    function show(){
-      ready = true;
-      btn.hidden = false;
-    }
+    function show(){ btn.hidden = false; }
     audio.addEventListener("loadedmetadata", show);
     audio.addEventListener("error", function(){ btn.hidden = true; });
-    // Файл кэштен келсе, loadedmetadata скрипттен бұрын өтіп кетуі мүмкін
     if (audio.readyState >= 1) { show(); }
 
-    function paint(){ btn.classList.toggle("on", !audio.paused); }
+    function playing(){ return !audio.paused && !audio.muted; }
+    function paint(){ btn.classList.toggle("on", playing()); }
 
-    // Автоқосу: браузер рұқсат етсе, ән бірден басталады
-    function start(){
+    // Дыбыссыз ойнатуға браузер әрқашан рұқсат етеді. Әнді үнсіз қосып қойсақ,
+    // бірінші түртуде ол кідіріссіз естіледі.
+    function prime(){
+      audio.muted = true;
+      var p = audio.play();
+      if (p && p.catch) { p.catch(function(){}); }
+    }
+
+    // Бет жүктелген соң 300 мс-та автоқосуға тырысамыз
+    function autostart(){
+      setTimeout(function(){
+        audio.muted = false;
+        var p = audio.play();
+        if (p && p.then) { p.then(paint).catch(prime); } else { paint(); }
+      }, 300);
+    }
+    if (document.readyState === "complete") { autostart(); }
+    else { window.addEventListener("load", autostart); }
+
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      if (playing()){ audio.pause(); paint(); return; }
+      audio.muted = false;
       var p = audio.play();
       if (p && p.then) { p.then(paint).catch(function(){}); } else { paint(); }
-    }
-    start();
-    audio.addEventListener("canplay", function(){ if (audio.paused) { start(); } }, { once: true });
-
-    btn.addEventListener("click", function(){
-      if (audio.paused){ audio.play().then(paint).catch(function(){}); }
-      else { audio.pause(); paint(); }
     });
 
-    // Телефондарда браузер дыбысқа тыйым салады. Сондықтан әр түртуде
-    // қайта тырысамыз — ән шынымен қосылғанша тыңдаушыларды алмаймыз.
+    // Телефондарда дыбыс тек қолданушы қимылынан кейін қосылады.
+    // Үнсіз ойнап тұрса — дыбысты қосып, әнді басынан бастаймыз.
     function onGesture(){
-      if (!audio.paused) { stopListening(); return; }
-      var p = audio.play();
-      if (p && p.then) {
-        p.then(function(){ paint(); stopListening(); }).catch(function(){});
-      } else if (!audio.paused) {
-        paint(); stopListening();
+      audio.muted = false;
+      if (audio.paused){
+        var p = audio.play();
+        if (p && p.then) { p.then(function(){ paint(); stopListening(); }).catch(function(){}); }
+      } else {
+        audio.currentTime = 0;
+        paint();
+        stopListening();
       }
     }
     function stopListening(){
