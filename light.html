@@ -619,11 +619,14 @@
         btn   = document.getElementById("music"),
         ready = false;
 
-    audio.addEventListener("loadedmetadata", function(){
+    function show(){
       ready = true;
       btn.hidden = false;
-    });
+    }
+    audio.addEventListener("loadedmetadata", show);
     audio.addEventListener("error", function(){ btn.hidden = true; });
+    // Файл кэштен келсе, loadedmetadata скрипттен бұрын өтіп кетуі мүмкін
+    if (audio.readyState >= 1) { show(); }
 
     function paint(){ btn.classList.toggle("on", !audio.paused); }
 
